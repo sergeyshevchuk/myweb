@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+	<head>
+		<style type="text/css">
+			.block {
+				font-size: 25px;
+				left: 51%;
+				position: absolute;
+				top: 50%;
+				transform: translate(-50%, -50%);
+				transition: opacity 1s;
+				opacity: 0;
+			}
+			.block.active {
+				opacity: 1;
+			}
+		</style>
+	</head>
+	<body style="background: #0a0a0a; 
+				font-family: 'Helvetica Neue';
+				color: #FFF;"
+	>
+		<div id="b1" class="block active">
+			<div>Sergey Shevchuk</div>
+			<div>Software Engineer</div>
+		</div>
+
+		<div id="b2" class="block">
+			Other text
+		</div>
+
+		<script type="text/javascript">
+			var BLOCKS = ['b1', 'b2'],
+				LEFT_KEY = 37, 
+				RIGHT_KEY = 39;
+				activeBlock = 0;
+
+			document.addEventListener("keydown", function (e) {
+    			if(e.keyCode === RIGHT_KEY)	{
+    				var blocksNumber = BLOCKS.length;
+    				var fadeOutBlock = document.getElementById(BLOCKS[(activeBlock++ % blocksNumber)]);
+
+    				fadeOutBlock.addEventListener('transitionend', function(e) {
+  						document.getElementById(BLOCKS[activeBlock % blocksNumber]).className = 'block active';
+					}, false);
+					
+    				fadeOutBlock.className = 'block';
+    			}
+			});
+		</script>
+	</body>
+</html>
