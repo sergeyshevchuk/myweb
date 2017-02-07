@@ -20,33 +20,64 @@
 				font-family: 'Helvetica Neue';
 				color: #FFF;"
 	>
-		<div id="b1" class="block active">
+		<section id="b1" class="block active">
 			<div>Sergey Shevchuk</div>
 			<div>Software Engineer</div>
-		</div>
+		</section>
 
-		<div id="b2" class="block">
+		<section id="b2" class="block">
 			Other text
-		</div>
+		</section>
+
+		<section id="b3" class="block">
+			Bla
+		</section>
+
+		<section id="b4" class="block">
+			Bla bla...
+		</section>
 
 		<script type="text/javascript">
-			var BLOCKS = ['b1', 'b2'],
+			var BLOCKS = ['b1', 'b2', 'b3', 'b4'],
+				BLOCKS_NUMBER = BLOCKS.length,
 				LEFT_KEY = 37, 
-				RIGHT_KEY = 39;
+				RIGHT_KEY = 39,
+				ENTER = 13,
+				SPACE = 32,
 				activeBlock = 0;
 
-			document.addEventListener("keydown", function (e) {
-    			if(e.keyCode === RIGHT_KEY)	{
-    				var blocksNumber = BLOCKS.length;
-    				var fadeOutBlock = document.getElementById(BLOCKS[(activeBlock++ % blocksNumber)]);
-
-    				fadeOutBlock.addEventListener('transitionend', function(e) {
-  						document.getElementById(BLOCKS[activeBlock % blocksNumber]).className = 'block active';
-					}, false);
-					
-    				fadeOutBlock.className = 'block';
+			document.addEventListener('keydown', function (e) {
+				var keyCode = e.keyCode;
+    			if(keyCode === RIGHT_KEY || keyCode === ENTER || keyCode === SPACE)	{
+    				changeBlock(nextBlock);
+    			} else if(keyCode === LEFT_KEY) {
+					changeBlock(prevBlock);
     			}
 			});
+
+			function changeBlock(getActiveBlock) {
+				var fadeOutBlock = document.getElementById(BLOCKS[(activeBlock % BLOCKS_NUMBER)]);
+				activeBlock = getActiveBlock();
+				fadeOutBlock.addEventListener('transitionend', function(e) {
+						document.getElementById(BLOCKS[activeBlock % BLOCKS_NUMBER]).className = 'block active';
+				}, false);
+				
+				fadeOutBlock.className = 'block';
+            };
+
+			function nextBlock() {
+				return activeBlock + 1;
+			};
+
+            function prevBlock() {
+            	var newActiveBlock = activeBlock - 1;
+            	if (newActiveBlock < 0) {
+  					newActiveBlock = BLOCKS_NUMBER + newActiveBlock;
+            	}
+            	return newActiveBlock;
+            };
+
+            
 		</script>
 	</body>
 </html>
